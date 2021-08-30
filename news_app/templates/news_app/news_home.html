@@ -1,0 +1,63 @@
+{% extends 'news_app/base.html' %}
+
+{% block title %} News Mania {% endblock title %}
+
+{% block css %} {% endblock css %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="sidebar">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <a href="{% url 'news_app:news_home' %}" class="text-decoration-none text-dark">All</a>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="{% url 'news_app:news_home' %}?search=top"
+                               class="text-decoration-none text-dark">Top News
+                            </a>
+                        </li>
+                        {% for category in categories %}
+                        <li class="list-group-item">
+                            <a href="{% url 'news_app:news_home' %}?search={{ category.name }}"
+                               class="text-decoration-none text-dark">{{ category.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8" id="articles-container">
+            {% for value in data %}
+            <div class="card mb-3 box" style="margin:auto;">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{value.url}}" target="_blanck"
+                                   class="text-decoration-none">{{value.title}}</a>
+                            </h5>
+                            <p class="card-text"><b>Source:</b> {{value.source}}</p>
+                            <p class="card-text"><b>Author:</b> {{value.author}}</p>
+                            <p class="card-text"><small class="text-muted">{{value.publishedAt}}</small></p>
+                            <p class="card-text">{{value.description}}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 img-box">
+                        <img src="{{value.image}}" class="card-img" alt="..." height="200px">
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <h1 id="loading">Loading....</h1>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block js %} {% endblock js %}
